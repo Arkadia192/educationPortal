@@ -1,0 +1,39 @@
+﻿@page
+@model EducationPortal.Pages.Educations.CreateModel
+
+<h2>Create New Education</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="Name">Education Name</label>
+        <input type="text" class="form-control" id="Name" asp-for="Education.Name" />
+    </div>
+    <div class="form-group">
+        <label for="CategoryId">Category</label>
+        <select class="form-control" id="CategoryId" asp-for="Education.CategoryId">
+            <option value="">-- Select Category --</option>
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Trainer">Trainer</label>
+        <input type="text" class="form-control" id="Trainer" asp-for="Education.Trainer" />
+    </div>
+    <div class="form-group">
+        <label for="IsInternalTrainer">Internal Trainer</label>
+        <input type="checkbox" id="IsInternalTrainer" asp-for="Education.IsInternalTrainer" />
+    </div>
+    <div class="form-group">
+        <label for="Cost">Cost</label>
+        <input type="number" class="form-control" id="Cost" asp-for="Education.Cost" />
+    </div>
+    <div class="form-group">
+        <label for="DurationDays">Duration (in days)</label>
+        <input type="number" class="form-control" id="DurationDays" asp-for="Education.DurationDays" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

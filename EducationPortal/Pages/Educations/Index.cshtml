@@ -1,0 +1,27 @@
+﻿@model EducationPortal.Pages.Educations.IndexModel
+
+<h2>Education List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Trainer</th>
+            <th>Cost</th>
+            <th>Duration</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var education in Model.Educations)
+        {
+            <tr>
+                <td>@education.Name</td>
+                <td>@education.Category.Name</td>
+                <td>@(education.IsInternalTrainer ? "Internal" : "External")</td>
+                <td>@education.Cost</td>
+                <td>@education.DurationDays days</td>
+            </tr>
+        }
+    </tbody>
+</table>
