@@ -1,0 +1,38 @@
+﻿@page "{id:int}"
+@model EducationPortal.Pages.Educations.DeleteModel
+@{
+    ViewData["Title"] = "Delete Education";
+}
+
+<h1>Delete Education</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Education</h4>
+    <div>
+        <label>Id:</label> @Model.Education.Id
+    </div>
+    <div>
+        <label>Name:</label> @Model.Education.Name
+    </div>
+    <div>
+        <label>Category:</label> @Model.Education.Category?.Name
+    </div>
+    <div>
+        <label>Trainer:</label> @Model.Education.Trainer?.Name
+    </div>
+    <div>
+        <label>Quota:</label> @Model.Education.Quota
+    </div>
+    <div>
+        <label>Cost:</label> @Model.Education.Cost
+    </div>
+    <div>
+        <label>Duration (Days):</label> @Model.Education.DurationDays
+    </div>
+</div>
+
+<form method="post">
+    <input type="submit" value="Delete" class="btn btn-danger" /> |
+    <a asp-page="./Index" class="btn btn-secondary">Cancel</a>
+</form>

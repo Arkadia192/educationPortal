@@ -1,34 +1,57 @@
-﻿// Controllers/EducationController.cs
-using EducationPortal.Data;
-using EducationPortal.Models;
+﻿using EducationPortal.Models;
+using EducationPortal.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class EducationController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IEducationService _educationService;
 
-        public EducationController(AppDbContext context)
+        public EducationController(IEducationService educationService)
         {
-            _context = context;
+            _educationService = educationService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Education>>> GetAll()
+        public async Task<IActionResult> GetAllEducations()
         {
-            return await _context.Educations.Include(e => e.Category).ToListAsync();
+            var educations = await _educationService.GetAllEducationsAsync();
+            return Ok(educations);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEducation(int id)
+        {
+            var education = await _educationService.GetEducationByIdAsync(id);
+            if (education == null) return NotFound();
+            return Ok(education);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Education>> CreateEducation(Education education)
+        public async Task<IActionResult> CreateEducation([FromBody] Education education)
         {
-            _context.Educations.Add(education);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetAll), new { id = education.Id }, education);
+            if (education == null) return BadRequest();
+            await _educationService.CreateEducationAsync(education);
+            return CreatedAtAction(nameof(GetEducation), new { id = education.Id }, education);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateEducation(int id, [FromBody] Education education)
+        {
+            if (id != education.Id) return BadRequest();
+            await _educationService.UpdateEducationAsync(education);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEducation(int id)
+        {
+            await _educationService.DeleteEducationAsync(id);
+            return NoContent();
         }
     }
 }

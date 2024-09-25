@@ -1,26 +1,43 @@
-﻿@model EducationPortal.Pages.Educations.IndexModel
+﻿@page
+@model EducationPortal.Pages.Educations.IndexModel
+@{
+    ViewData["Title"] = "Education List";
+}
 
-<h2>Education List</h2>
+<h1>Education List</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create New Education</a>
+</p>
 
 <table class="table">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Name</th>
             <th>Category</th>
             <th>Trainer</th>
+            <th>Quota</th>
             <th>Cost</th>
-            <th>Duration</th>
+            <th>Duration (Days)</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var education in Model.Educations)
         {
             <tr>
+                <td>@education.Id</td>
                 <td>@education.Name</td>
-                <td>@education.Category.Name</td>
-                <td>@(education.IsInternalTrainer ? "Internal" : "External")</td>
-                <td>@education.Cost</td>
-                <td>@education.DurationDays days</td>
+                <td>@education.Category?.Name</td>
+                <td>@education.Trainer?.Name</td>
+                <td>@education.Quota</td>
+                <td>@education.Cost.ToString("0.0")</td>
+                <td>@education.DurationDays</td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@education.Id" class="btn btn-warning">Edit</a>
+                    <a asp-page="./Delete" asp-route-id="@education.Id" class="btn btn-danger">Delete</a>
+                </td>
             </tr>
         }
     </tbody>

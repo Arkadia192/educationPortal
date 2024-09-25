@@ -1,39 +1,73 @@
 ﻿@page
 @model EducationPortal.Pages.Educations.CreateModel
+@{
+    ViewData["Title"] = "Create Education";
+}
 
-<h2>Create New Education</h2>
+<h1>Create New Education</h1>
 
 <form method="post">
+    <!-- Education Name -->
     <div class="form-group">
-        <label for="Name">Education Name</label>
-        <input type="text" class="form-control" id="Name" asp-for="Education.Name" />
-    </div>
-    <div class="form-group">
-        <label for="CategoryId">Category</label>
-        <select class="form-control" id="CategoryId" asp-for="Education.CategoryId">
-            <option value="">-- Select Category --</option>
-            @foreach (var category in Model.Categories)
-            {
-                <option value="@category.Id">@category.Name</option>
-            }
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="Trainer">Trainer</label>
-        <input type="text" class="form-control" id="Trainer" asp-for="Education.Trainer" />
-    </div>
-    <div class="form-group">
-        <label for="IsInternalTrainer">Internal Trainer</label>
-        <input type="checkbox" id="IsInternalTrainer" asp-for="Education.IsInternalTrainer" />
-    </div>
-    <div class="form-group">
-        <label for="Cost">Cost</label>
-        <input type="number" class="form-control" id="Cost" asp-for="Education.Cost" />
-    </div>
-    <div class="form-group">
-        <label for="DurationDays">Duration (in days)</label>
-        <input type="number" class="form-control" id="DurationDays" asp-for="Education.DurationDays" />
+        <label asp-for="Education.Name"></label>
+        <input asp-for="Education.Name" class="form-control" />
+        <span asp-validation-for="Education.Name" class="text-danger"></span>
     </div>
 
+    <div class="form-group">
+        <label asp-for="Education.CategoryId"></label>
+        <select asp-for="Education.CategoryId" class="form-control" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
+            <option value="">-- Select Category --</option>
+        </select>
+        <span asp-validation-for="Education.CategoryId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Education.TrainerId"></label>
+        <select asp-for="Education.TrainerId" class="form-control" asp-items="@(new SelectList(Model.Trainers, "Id", "Name"))">
+            <option value="">-- Select Trainer --</option>
+        </select>
+        <span asp-validation-for="Education.TrainerId" class="text-danger"></span>
+    </div>
+
+
+    <!-- Is Internal Trainer (Checkbox) -->
+    <div class="form-group form-check">
+        <input asp-for="Education.IsInternalTrainer" class="form-check-input" type="checkbox" />
+        <label asp-for="Education.IsInternalTrainer" class="form-check-label">Is Internal Trainer</label>
+        <span asp-validation-for="Education.IsInternalTrainer" class="text-danger"></span>
+    </div>
+
+    <!-- Quota -->
+    <div class="form-group">
+        <label asp-for="Education.Quota"></label>
+        <input asp-for="Education.Quota" class="form-control" type="number" />
+        <span asp-validation-for="Education.Quota" class="text-danger"></span>
+    </div>
+
+    <!-- Cost -->
+    <div class="form-group">
+        <label asp-for="Education.Cost"></label>
+        <input asp-for="Education.Cost" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="Education.Cost" class="text-danger"></span>
+    </div>
+
+    <!-- Duration (in Days) -->
+    <div class="form-group">
+        <label asp-for="Education.DurationDays"></label>
+        <input asp-for="Education.DurationDays" class="form-control" type="number" />
+        <span asp-validation-for="Education.DurationDays" class="text-danger"></span>
+    </div>
+
+    <!-- Submit Button -->
     <button type="submit" class="btn btn-primary">Create</button>
 </form>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

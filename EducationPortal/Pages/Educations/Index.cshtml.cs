@@ -1,8 +1,9 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using EducationPortal.Data;
 using EducationPortal.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EducationPortal.Pages.Educations
@@ -20,7 +21,11 @@ namespace EducationPortal.Pages.Educations
 
         public async Task OnGetAsync()
         {
-            Educations = await _context.Educations.Include(e => e.Category).ToListAsync();
+            // Fetch all Education records along with their related Category and Trainer
+            Educations = await _context.Educations
+                .Include(e => e.Category)
+                .Include(e => e.Trainer)
+                .ToListAsync();
         }
     }
 }

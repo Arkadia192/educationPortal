@@ -1,4 +1,5 @@
 using EducationPortal.Data;
+using EducationPortal.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddScoped<IEducationService, EducationService>();
 builder.Services.AddControllers();
 
 // Add CORS policy (optional, for API access from JS clients)
@@ -36,6 +38,12 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 app.MapRazorPages();
+app.MapGet("/", async context =>
+{
+    context.Response.Redirect("/Educations/Index");
+    await Task.CompletedTask;
+});
+
 app.MapControllers();  // Map API Controllers
 
 app.Run();
